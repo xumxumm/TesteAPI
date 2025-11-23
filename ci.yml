@@ -1,0 +1,27 @@
+name: CI - Build e Testes
+
+on:
+  push:
+    branches: [ "estado" ]
+  pull_request:
+    branches: [ "estado" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build com Maven
+        run: mvn -B package --file pom.xml
+
+      - name: Testes
+        run: mvn test
